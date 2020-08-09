@@ -1,3 +1,4 @@
+/*Written by: Pride Moyo St (09/08/2020)*/
 package com.callbackinterfaces.androidfragmentcommunicationdemojava;
 
 import android.content.Context;
@@ -14,10 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class SecondFragment extends Fragment {
+    //callback interface to send data to MainActivity
     public interface OnSecondFragTextSentListener {
         void onSecondFragTextSent(String text);
     }
     private TextView textView;
+    //This listener is our MainActivity
     private OnSecondFragTextSentListener onSecondFragTextSentListener;
     private EditText editText;
     private Button send;
@@ -41,6 +44,7 @@ public class SecondFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //retrieving data set in MainActivity as part of the arguments bundle for this Fragment
         Bundle args=getArguments();
         if(args!=null) {
             textView.setText(args.getString("RECEIVED"));
@@ -54,5 +58,12 @@ public class SecondFragment extends Fragment {
         super.onAttach(context);
         onSecondFragTextSentListener=(OnSecondFragTextSentListener)context;
     }
+    //clearing our reference to MainActivity context.
+    @Override
+    public void onDettach() {
+        super.onDettach();
+         onSecondFragTextSentListener=null;
+    }
+        
 }
 
