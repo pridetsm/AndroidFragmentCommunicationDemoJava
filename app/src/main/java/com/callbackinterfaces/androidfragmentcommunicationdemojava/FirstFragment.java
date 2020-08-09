@@ -1,3 +1,4 @@
+/*Written by:Pride Moyo ST (09/08/2020)*/
 package com.callbackinterfaces.androidfragmentcommunicationdemojava;
 
 import android.content.Context;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class FirstFragment extends Fragment {
+    //callback interface used to send the data to Main Activity 
     public interface OnFirstFragTextSentListener {
         void onFirstFragTextSent(String text);
     }
@@ -43,10 +45,13 @@ public class FirstFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //retrieving th data passed from MainActivity as part of the arguments bundle
+        //and dispaying it on the text view
         Bundle args=getArguments();
         if(args!=null) {
             textView.setText(args.getString("RECEIVED"));
         }
+        //setting the title on the ActionBar set in MainActivity
         ((MainActivity)getActivity()).setActionBarTitle("FRAG 1");
     }
 
@@ -54,6 +59,12 @@ public class FirstFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         onFirstFragTextSentListener=(OnFirstFragTextSentListener)context;
+    }
+    //clearing our reference to MainActivity for smooth garbage collection
+   @Override
+    public void onDetach() {
+        super.onDetach();
+        onFirstFragTextSentListener=null;
     }
 
 }
